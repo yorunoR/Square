@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django_bootstrap5",
+    "graphene_django",
     "default.apps.DefaultConfig",
     "account.apps.AccountConfig",
 ]
@@ -145,3 +146,5 @@ STATIC_URL = "static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 AUTH_USER_MODEL = "account.AdminUser"
+
+GRAPHENE = {"SCHEMA": "api.schema.schema"}

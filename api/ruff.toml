@@ -1,5 +1,5 @@
 # Enable flake8-bugbear (`B`) rules.
-select = ["E", "F", "B"]
+select = ["E", "F", "B", "I"]
 
 # Never enforce `E501` (line length violations).
 ignore = ["E501"]
@@ -11,3 +11,4 @@ unfixable = ["B", "F401"]
 [per-file-ignores]
 # "__init__.py" = ["E402"]
 # "path/to/file.py" = ["E402"]
+"account/migrations/*" = ["I001"]

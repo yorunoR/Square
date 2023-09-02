@@ -2,7 +2,7 @@ test:
 	poetry run python manage.py test
 
 run:
-	poetry run python manage.py runserver 3000
+	poetry run python manage.py runserver 5000
 
 fmt:
 	poetry run black . --preview

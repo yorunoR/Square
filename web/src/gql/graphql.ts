@@ -16,10 +16,20 @@ export type Scalars = {
   Float: { input: number; output: number; }
 };
 
+export type Mutation = {
+  __typename?: 'Mutation';
+  signinUser?: Maybe<SigninUserMutation>;
+};
+
 export type Query = {
   __typename?: 'Query';
   ping?: Maybe<Scalars['String']['output']>;
   users?: Maybe<Array<Maybe<UserType>>>;
+};
+
+export type SigninUserMutation = {
+  __typename?: 'SigninUserMutation';
+  user?: Maybe<UserType>;
 };
 
 export type UserType = {
@@ -33,10 +43,16 @@ export type UserType = {
   role: Scalars['Int']['output'];
 };
 
+export type SigninUserMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type SigninUserMutation = { __typename?: 'Mutation', signinUser?: { __typename?: 'SigninUserMutation', user?: { __typename?: 'UserType', email: string } | null } | null };
+
 export type PingQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type PingQuery = { __typename?: 'Query', ping?: string | null };
 
 
+export const SigninUserDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"SigninUser"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"signinUser"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"email"}}]}}]}}]}}]} as unknown as DocumentNode<SigninUserMutation, SigninUserMutationVariables>;
 export const PingDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Ping"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"ping"}}]}}]} as unknown as DocumentNode<PingQuery, PingQueryVariables>;

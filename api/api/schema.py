@@ -1,5 +1,6 @@
-from graphene import Field, List, ObjectType, Schema, String
+from graphene import Field, List, Mutation, ObjectType, Schema, String
 from graphene_django import DjangoObjectType
+from graphql import GraphQLError
 
 from account.models import User
 
@@ -26,4 +27,23 @@ class Query(ObjectType):
         return User.objects.all()
 
 
-schema = Schema(query=Query)
+class SigninUserMutation(Mutation):
+    user = Field(UserType)
+
+    @classmethod
+    def mutate(cls, root, info):
+        try:
+            user = User.objects.filter(uid=info.context.uid).first()
+            if user is None:
+                user = User.objects.create(uid=info.context.uid, email=info.context.email, name=info.context.name, activated=True)
+        except Exception as e:
+            raise GraphQLError("Invalid user.") from e
+
+        return SigninUserMutation(user=user)
+
+
+class Mutation(ObjectType):
+    signin_user = SigninUserMutation.Field()
+
+
+schema = Schema(query=Query, mutation=Mutation)

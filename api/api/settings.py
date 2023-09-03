@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -25,7 +26,7 @@ SECRET_KEY = "django-insecure-!)$&f5&%%co6(1n*y4x7%-xxhvz*v)#nd5(=l(6@kokp19v=uz
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["api", "localhost"]
 
 
 # Application definition
@@ -38,6 +39,8 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django_bootstrap5",
+    "corsheaders",
+    "graphene_django",
     "default.apps.DefaultConfig",
     "account.apps.AccountConfig",
 ]
@@ -45,6 +48,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -78,9 +82,27 @@ WSGI_APPLICATION = "api.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
-    }
+        "ENGINE": "django.db.backends.postgresql_psycopg2",
+        "NAME": "square_dev",
+        "USER": "developer",
+        "PASSWORD": os.getenv("USER_PASSWORD", "secret"),
+        "HOST": os.getenv("DOCKER_POSTGRES_HOST", "localhost"),
+        "PORT": 5432,
+        "TEST": {
+            "NAME": "square_test",
+        },
+    },
+    "superuser": {
+        "ENGINE": "django.db.backends.postgresql_psycopg2",
+        "NAME": "square_dev",
+        "USER": "postgres",
+        "PASSWORD": os.getenv("POSTGRES_PASSWORD", "secret"),
+        "HOST": os.getenv("DOCKER_POSTGRES_HOST", "localhost"),
+        "PORT": 5432,
+        "TEST": {
+            "NAME": "square_test",
+        },
+    },
 }
 
 
@@ -126,3 +148,7 @@ STATIC_URL = "static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 AUTH_USER_MODEL = "account.AdminUser"
+
+GRAPHENE = {"SCHEMA": "api.schema.schema"}
+
+CORS_ALLOW_ALL_ORIGINS = True

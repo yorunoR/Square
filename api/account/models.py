@@ -37,3 +37,46 @@ class AdminUser(AbstractUser):
         db_table = "admin_users"
         verbose_name = "管理者"
         verbose_name_plural = "管理者"
+
+
+class SoftDeleteManager(models.Manager):
+    def get_queryset(self):
+        query = super().get_queryset()
+
+        query = query.filter(deleted_at=None)
+
+        return query
+
+
+class BasicModel(models.Model):
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    deleted_at = models.DateTimeField(blank=True, null=True)
+
+    objects = SoftDeleteManager()
+    with_deleted = models.Manager()
+
+    class Meta:
+        abstract = True
+
+
+class User(BasicModel):
+    activated = models.BooleanField(default=False)
+    email = models.EmailField()
+    name = models.CharField(max_length=150)
+    profile_image = models.CharField(blank=True, null=True)
+    role = models.IntegerField(default=0)
+    uid = models.CharField(max_length=150)
+    anonymous = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.email
+
+    class Meta:
+        db_table = "users"
+        verbose_name = "ユーザー"
+        verbose_name_plural = "ユーザー"
+        indexes = [
+            models.Index(fields=["email"], condition=models.Q(email__isnull=False), name="index_users_on_email"),
+            models.Index(fields=["uid"], condition=models.Q(uid__isnull=False), name="index_users_on_uid"),
+        ]

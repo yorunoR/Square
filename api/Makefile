@@ -19,8 +19,14 @@ shell:
 migrations:
 	poetry run python manage.py makemigrations
 
+showmigrations:
+	poetry run python manage.py showmigrations
+
 migrate:
 	poetry run python manage.py migrate
+
+rollback:
+	poetry run python manage.py migrate ${app} ${to}
 
 superuser:
 	poetry run python manage.py createsuperuser

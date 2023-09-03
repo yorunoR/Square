@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     "django_bootstrap5",
     "corsheaders",
     "graphene_django",
+    "django_extensions",
     "default.apps.DefaultConfig",
     "account.apps.AccountConfig",
 ]
@@ -152,3 +153,11 @@ AUTH_USER_MODEL = "account.AdminUser"
 GRAPHENE = {"SCHEMA": "api.schema.schema"}
 
 CORS_ALLOW_ALL_ORIGINS = True
+
+
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+        "LOCATION": "certs",
+    }
+}

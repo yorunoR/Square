@@ -21,11 +21,11 @@
 </template>
 
 <script setup lang="ts">
-// import { provideClient } from '@urql/vue'
+import { provideClient } from '@urql/vue'
 import { ref } from 'vue'
 
 import router from '@/router'
-// import { makeClient } from '@/services/client'
+import { makeClient } from '@/services/client'
 // import firebase from '@/services/firebase'
 
 const visibleMain = ref(true)
@@ -39,7 +39,7 @@ const visibleLeft = ref(false)
 //   }
 // })
 
-// provideClient(makeClient())
+provideClient(makeClient())
 
 const signOut = async () => {
   // await firebase.signout()

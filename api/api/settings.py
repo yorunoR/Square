@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     "django_bootstrap5",
     "corsheaders",
     "graphene_django",
+    "django_extensions",
     "default.apps.DefaultConfig",
     "account.apps.AccountConfig",
 ]

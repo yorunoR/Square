@@ -26,23 +26,23 @@ import { ref } from 'vue'
 
 import router from '@/router'
 import { makeClient } from '@/services/client'
-// import firebase from '@/services/firebase'
+import firebase from '@/services/firebase'
 
-const visibleMain = ref(true)
+const visibleMain = ref(false)
 const visibleLeft = ref(false)
 
-// firebase.onAuthStateChanged((user) => {
-//   if (user) {
-//     visibleMain.value = true
-//   } else {
-//     router.push({ name: 'sign_in' })
-//   }
-// })
+firebase.onAuthStateChanged((user) => {
+  if (user) {
+    visibleMain.value = true
+  } else {
+    router.push({ name: 'sign_in' })
+  }
+})
 
 provideClient(makeClient())
 
 const signOut = async () => {
-  // await firebase.signout()
+  await firebase.signout()
   router.push({ name: 'sign_in' })
 }
 </script>
